@@ -15,6 +15,8 @@ export const GlobalStyle = createGlobalStyle`
         --header-background: #161414;
         --background: #1e1e1d;
         --shape: #353333;
+
+        --toastify-toast-width: 550;
     }
     
     * {

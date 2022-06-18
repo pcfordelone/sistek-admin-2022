@@ -1,9 +1,13 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import { GlobalStyle } from "./styles/global";
+import "react-toastify/dist/ReactToastify.css";
+
+import { AuthContextProvider } from "./modules/Authentication/contexts/AuthContext";
+
 import { EmployeePage } from "./modules/Employees/pages/EmployeePage";
 import { AuthLoginPage } from "./modules/Authentication/pages/AuthLoginPage";
 import { EmployeesPage } from "./modules/Employees/pages/EmployeesPage";
-import { AuthContextProvider } from "./modules/Authentication/contexts/AuthContext";
 import { PrivatePage } from "./modules/Authentication/components/ProtectedPage/index";
 import { NewEmployeePage } from "./modules/Employees/pages/NewEmployeePage";
 import { DashboardPage } from "./modules/Dashboard/pages/DashboardPage";
@@ -12,19 +16,40 @@ import { AddPayStubPage } from "./modules/PayStubs/pages/AddPayStubPage";
 import { AddUserPage } from "./modules/Users/pages/AddUserPage";
 import { ListUsersPage } from "./modules/Users/pages/ListUsersPage";
 import { EditUserPage } from "./modules/Users/pages/EditUserPage";
-import "react-toastify/dist/ReactToastify.css";
+import { UserDashboardPage } from "./modules/UserPanel/pages/UserDashboardPage";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <AuthContextProvider>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <BrowserRouter>
         <Routes>
           <Route path="/auth/login" element={<AuthLoginPage />} />
           <Route
             path="/"
             element={
-              <PrivatePage>
+              <PrivatePage admin>
                 <DashboardPage />
+              </PrivatePage>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivatePage>
+                <UserDashboardPage />
               </PrivatePage>
             }
           />
