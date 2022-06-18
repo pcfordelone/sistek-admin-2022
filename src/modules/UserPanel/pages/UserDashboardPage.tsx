@@ -1,9 +1,9 @@
-import { Header } from "../../../components/Header/index";
 import { UserDashboard } from "../components/UserDashboard";
+import { UserHeader } from "../../../components/UserHeader/index";
 export const UserDashboardPage: React.FC = () => {
   return (
     <>
-      <Header />
+      <UserHeader />
       <UserDashboard />
     </>
   );
