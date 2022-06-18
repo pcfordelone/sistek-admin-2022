@@ -19,8 +19,7 @@ export const Authenticate: React.FC = () => {
     event.preventDefault();
 
     try {
-      const response = await auth.login(email, password);
-      console.log(response);
+      await auth.login(email, password);
 
       navigate("/");
     } catch (err) {

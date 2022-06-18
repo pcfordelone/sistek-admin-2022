@@ -6,6 +6,7 @@ import { api } from "../../../../config/axios-config";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Authentication/contexts/AuthContext/useAuth";
 import InputMask from "react-input-mask";
+import { notify } from "../../../../utils/notification";
 
 export const AddEmployee: React.FC = () => {
   const navigate = useNavigate();
@@ -73,8 +74,10 @@ export const AddEmployee: React.FC = () => {
         },
       });
     } catch (error: any) {
-      console.log(error.response.data.message);
-      setError(error.response.data.message);
+      notify(
+        error.response.data.message || "Erro desconhecido, informe o webmaster",
+        "error"
+      );
     }
   };
 
@@ -92,6 +95,7 @@ export const AddEmployee: React.FC = () => {
           setAState(data.uf);
         })
         .catch((error) => {
+          notify(error.message || "Erro ao consultar CEP", "error");
           return;
         });
     }

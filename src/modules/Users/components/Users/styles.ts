@@ -65,10 +65,11 @@ export const Content = styled.div`
         display: flex;
         justify-content: flex-start;
         gap: 0.3rem;
+        padding: 0 0.5rem;
+        margin: 0;
 
         &:first-child {
           flex: 0;
-          padding: 0 0.5rem;
         }
 
         &:last-child {

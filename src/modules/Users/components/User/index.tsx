@@ -10,6 +10,7 @@ import {
 } from "phosphor-react";
 import { api } from "../../../../config/axios-config";
 import { useAuth } from "../../../Authentication/contexts/AuthContext/useAuth";
+import { notify } from "../../../../utils/notification";
 
 interface IUser {
   id: string;
@@ -49,8 +50,12 @@ export const User: React.FC<IUserProps> = ({
       );
 
       setStatus(response.data.isActive);
-    } catch (error) {
-      console.log(error);
+      notify(`Status do usuário ${response.data.name} alterado`, "success");
+    } catch (error: any) {
+      notify(
+        error.response.data.message || error.message || "Erro desconhecido!",
+        "error"
+      );
     }
   };
 
@@ -62,8 +67,21 @@ export const User: React.FC<IUserProps> = ({
             Authorization: `Bearer ${auth.token}`,
           },
         })
-        .then(() => reloadUsers())
-        .catch((error) => console.log(error));
+        .then((response) => {
+          reloadUsers();
+          notify(
+            `Usuário ${response.data.name} excluído com sucesso.`,
+            "success"
+          );
+        })
+        .catch((error) => {
+          notify(
+            error.response.data.message ||
+              error.message ||
+              "Erro desconhecido!",
+            "error"
+          );
+        });
     }
   };
 

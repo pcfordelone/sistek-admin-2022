@@ -8,8 +8,7 @@ import { IEmployee } from "../../interfaces/IEmployee";
 import { Navigate, useLocation } from "react-router-dom";
 import { Load } from "../../../../styles/global";
 import LoadImg from "../../../../assets/loading.svg";
-
-import { ToastContainer, toast } from "react-toastify";
+import { notify } from "../../../../utils/notification";
 
 interface LocationState {
   message: string | undefined;
@@ -35,39 +34,20 @@ export const Employees: React.FC = () => {
       .then((result) => {
         setEmployees(result.data);
         setLoading(false);
-        toast.success(message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        if (message) notify(message, "success");
       })
       .catch((error) => {
-        console.log(error.response.data.message);
         if (error.response.data.message === "Token invalid") {
           auth.logout();
           return <Navigate to="/auth/login" />;
         }
+
+        notify(error.message || "Erro desconhecido!", "error");
       });
   }, []);
 
   return (
     <Container>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <Breadcrumb
         activeLink="Funcionários"
         links={[

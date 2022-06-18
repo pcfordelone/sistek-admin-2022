@@ -1,3 +1,5 @@
+import { IEmployee } from "../../Employees/interfaces/IEmployee";
+
 export interface IUser {
   id: string;
   name: string;
@@ -5,4 +7,5 @@ export interface IUser {
   password: string;
   role: "MASTER" | "ADMIN" | "USER";
   isActive: boolean;
+  Employee?: IEmployee[];
 }

@@ -5,6 +5,7 @@ import { api } from "../../../../config/axios-config";
 import { useAuth } from "../../../Authentication/contexts/AuthContext/useAuth";
 import { Database } from "phosphor-react";
 import { useNavigate } from "react-router-dom";
+import { notify } from "../../../../utils/notification";
 
 interface IFormData {
   name: string;
@@ -25,7 +26,6 @@ export const AddUser = () => {
     password: "",
     confirm_password: "",
   });
-  const [error, setError] = useState("");
 
   const handleNameChange: IHandleFormData = (
     event: ChangeEvent<HTMLInputElement>
@@ -70,10 +70,15 @@ export const AddUser = () => {
         },
       });
 
-      navigate("/usuarios");
+      navigate("/usuarios", {
+        state: {
+          message: `Usuário ${result.data.name} incluído com sucesso`,
+        },
+      });
     } catch (error: any) {
-      console.log(error);
-      setError(error.response.data.message);
+      notify(
+        error.response.data.message || error.message || "Erro desconhecido!"
+      );
     }
   };
 
@@ -95,8 +100,6 @@ export const AddUser = () => {
       />
 
       <Content>
-        <p className="error"></p>
-
         <form onSubmit={handleSubmit}>
           <h2>Dados de Acesso:</h2>
           <div className="form-group">

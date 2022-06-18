@@ -5,6 +5,7 @@ import { api } from "../../../../config/axios-config";
 import { useAuth } from "../../../Authentication/contexts/AuthContext/useAuth";
 import { Database } from "phosphor-react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { notify } from "../../../../utils/notification";
 
 interface IFormData {
   name: string;
@@ -22,7 +23,6 @@ export const EditUser = () => {
     name: "",
     email: "",
   });
-  const [error, setError] = useState("");
 
   useEffect(() => {
     api
@@ -38,11 +38,11 @@ export const EditUser = () => {
         });
       })
       .catch((error) => {
-        console.log(error);
         if (error.response.data.message === "Token invalid") {
           auth.logout();
           return <Navigate to="/auth/login" />;
         }
+        notify(error.message || "Erro desconhecido!", "error");
       });
   }, []);
 
@@ -73,10 +73,16 @@ export const EditUser = () => {
         },
       });
 
-      navigate("/usuarios");
+      navigate("/usuarios", {
+        state: {
+          message: `Usuário ${result.data.name} atualizado com sucesso`,
+        },
+      });
     } catch (error: any) {
-      console.log(error);
-      setError(error.response.data.message);
+      notify(
+        error.response.data.message || error.message || "Erro desconhecido!",
+        "error"
+      );
     }
   };
 

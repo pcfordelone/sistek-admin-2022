@@ -32,6 +32,7 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
       email,
       role: response.role,
       username: response.username,
+      user_id: response.user_id,
     };
 
     setUser(payload);

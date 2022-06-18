@@ -5,13 +5,14 @@ import { useState, useEffect } from "react";
 import { api } from "../../../../config/axios-config";
 import { IEmployee } from "../../../Employees/interfaces/IEmployee";
 
+import { ToastContainer } from "react-toastify";
+import { notify } from "../../../../utils/notification";
+
 export const Dashboard: React.FC = () => {
   const auth = useAuth();
 
   const [employeesTotal, setEmployeesTotal] = useState(0);
   const [holeritesTotal, setHoleritesTotal] = useState(0);
-
-  console.log(holeritesTotal);
 
   useEffect(() => {
     api
@@ -31,13 +32,15 @@ export const Dashboard: React.FC = () => {
         });
 
         setHoleritesTotal(paystubs);
+      })
+      .catch((error) => {
+        notify(error.message, "error");
       });
   }, []);
 
   return (
     <Container>
       <Breadcrumb activeLink="Main" employeeToolbar={false} />
-
       <Content>
         <h1>
           Seja bem vindo <strong>{auth.username}</strong>{" "}

@@ -9,9 +9,15 @@ import { api } from "../../../../config/axios-config";
 import { useParams, Navigate, Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../../Authentication/contexts/AuthContext/useAuth";
 import { format } from "date-fns";
-import { CheckCircle, Eye, File, Trash, XCircle } from "phosphor-react";
-
-import { ToastContainer, toast } from "react-toastify";
+import {
+  CheckCircle,
+  Eye,
+  File,
+  FileImage,
+  Trash,
+  XCircle,
+} from "phosphor-react";
+import { notify } from "../../../../utils/notification";
 
 interface LocationState {
   message: string | undefined;
@@ -49,11 +55,15 @@ export const EmployeeDetail = () => {
         setEmployee(result.data);
       })
       .catch((error) => {
-        console.log(error);
         if (error.response.data.message === "Token invalid") {
           auth.logout();
           return <Navigate to="/auth/login" />;
         }
+        notify(
+          error.response.data.message ||
+            "Erro desconhecido, informe o webmaster",
+          "error"
+        );
       });
   };
 
@@ -79,63 +89,23 @@ export const EmployeeDetail = () => {
         })
         .then(() => {
           findEmployeeById();
-          toast.error("Holerite excluído com sucesso", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          notify("Holerite excluído com sucesso", "success");
         })
         .catch((error) => {
-          console.log(error);
-          toast.error(
-            error.response.data.message || error || "Erro desconhecido",
-            {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            }
+          notify(
+            error.response.data.message || error.message || "Erro desconhecido",
+            "error"
           );
         });
     }
   };
 
   useEffect(() => {
-    toast.success(message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    if (message) notify(message, "success");
   }, []);
 
   return (
     <Container>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-
       <Breadcrumb
         employeeToolbar={true}
         activeLink={employee?.name || ""}
@@ -246,6 +216,11 @@ export const EmployeeDetail = () => {
           )}
 
           <div>
+            <Link to={`/funcionarios/${employee?.id}`}>
+              <button type="button">
+                <FileImage size={30} weight="bold" />
+              </button>
+            </Link>
             <Link to={`/funcionarios/${employee?.id}`}>
               <button type="button">
                 <img src={editIconImg} alt="Editar" />

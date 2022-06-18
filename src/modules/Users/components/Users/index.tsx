@@ -4,15 +4,20 @@ import { useEffect, useState, ChangeEvent } from "react";
 import { api } from "../../../../config/axios-config";
 import { useAuth } from "../../../Authentication/contexts/AuthContext/useAuth";
 
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { IUser } from "../../interfaces/IUser";
 import { User } from "../User";
 
 import LoadImg from "../../../../assets/loading.svg";
 import { Load } from "../../../../styles/global";
+import { notify } from "../../../../utils/notification";
 
 interface IUsersSelected {
   users: string[];
+}
+
+interface LocationState {
+  message: string | undefined;
 }
 
 export const Users: React.FC = () => {
@@ -20,6 +25,9 @@ export const Users: React.FC = () => {
   const [navActive, setNavActive] = useState(false);
   const [usersSelected, setUsersSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const location = useLocation();
+  const message = (location.state as LocationState)?.message;
 
   const auth = useAuth();
 
@@ -47,6 +55,7 @@ export const Users: React.FC = () => {
       .then((result) => {
         setUsers(result.data);
         setLoading(false);
+        if (message) notify(message, "success");
       })
       .catch((error) => {
         console.log(error.response.data.message);
@@ -99,7 +108,7 @@ export const Users: React.FC = () => {
 
           <div className="title">
             <ul>
-              <li></li>
+              <li>{"#"}</li>
               <li>Nome</li>
               <li>E-mail</li>
               <li>Status</li>

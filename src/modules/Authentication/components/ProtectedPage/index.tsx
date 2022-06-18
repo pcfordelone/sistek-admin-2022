@@ -18,8 +18,7 @@ export const PrivatePage: React.FC<PrivatePageProps> = ({
 
   if (admin) {
     if (auth.role === "USER") {
-      auth.logout();
-      return <Navigate to="/auth/login" />;
+      return <Navigate to="/dashboard" />;
     }
   }
 

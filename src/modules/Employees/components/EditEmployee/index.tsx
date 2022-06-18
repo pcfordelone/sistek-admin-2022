@@ -7,6 +7,7 @@ import { useNavigate, useParams, Navigate } from "react-router-dom";
 import { useAuth } from "../../../Authentication/contexts/AuthContext/useAuth";
 import InputMask from "react-input-mask";
 import { format } from "date-fns";
+import { notify } from "../../../../utils/notification";
 
 export const EditEmployee: React.FC = () => {
   const navigate = useNavigate();
@@ -132,8 +133,10 @@ export const EditEmployee: React.FC = () => {
         },
       });
     } catch (error: any) {
-      console.log(error);
-      setError(error.response.data.message);
+      notify(
+        error.response.data.message || "Erro desconhecido, informe o webmaster",
+        "error"
+      );
     }
   };
 
@@ -151,6 +154,7 @@ export const EditEmployee: React.FC = () => {
           setAState(data.uf);
         })
         .catch((error) => {
+          notify(error.message || "Erro ao consultar CEP", "error");
           return;
         });
     }

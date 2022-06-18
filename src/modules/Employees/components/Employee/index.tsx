@@ -6,12 +6,12 @@ import { EmployeeItem } from "./styles";
 
 import { format } from "date-fns";
 
-import pt from "date-fns/locale/pt-BR";
 import { CheckCircle, CheckSquareOffset, XCircle } from "phosphor-react";
 import { Link } from "react-router-dom";
 import { api } from "../../../../config/axios-config";
 import { useState } from "react";
 import { useAuth } from "../../../Authentication/contexts/AuthContext/useAuth";
+import { notify } from "../../../../utils/notification";
 
 interface IEmployeeProps {
   employee: IEmployee;
@@ -34,6 +34,12 @@ export const Employee: React.FC<IEmployeeProps> = ({
       )
       .then((result) => {
         setStatus(!status);
+        notify(
+          `Status de ${employee.name} alterado para ${
+            status ? "Inativo" : "Ativo"
+          }`,
+          "success"
+        );
       })
       .catch((error) => {
         console.log(error);
