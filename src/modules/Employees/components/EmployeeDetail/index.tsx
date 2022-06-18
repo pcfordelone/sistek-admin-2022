@@ -14,6 +14,7 @@ import {
   Eye,
   File,
   FileImage,
+  Star,
   Trash,
   XCircle,
 } from "phosphor-react";
@@ -53,6 +54,7 @@ export const EmployeeDetail = () => {
       })
       .then((result) => {
         setEmployee(result.data);
+        console.log(result.data);
       })
       .catch((error) => {
         if (error.response.data.message === "Token invalid") {
@@ -90,6 +92,38 @@ export const EmployeeDetail = () => {
         .then(() => {
           findEmployeeById();
           notify("Holerite excluído com sucesso", "success");
+        })
+        .catch((error) => {
+          notify(
+            error.response.data.message || error.message || "Erro desconhecido",
+            "error"
+          );
+        });
+    }
+  };
+
+  const handleChangeEmployeeRole = (id: string) => {
+    if (
+      window.confirm(
+        "Tem certeza que deseja alterar as permissões deste colaborador?"
+      )
+    ) {
+      api
+        .patch(
+          `/users/role/${id}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${auth.token}`,
+            },
+          }
+        )
+        .then((response) => {
+          notify(
+            `Permissão do colaborador ${response.data.name} alterada para ${response.data.role}`,
+            "success"
+          );
+          console.log(response.data);
         })
         .catch((error) => {
           notify(
@@ -138,12 +172,25 @@ export const EmployeeDetail = () => {
 
       <Content className={infoActive ? "" : "hidden"}>
         <div className="contentItem">
-          <img src="/src/assets/user-no_img.svg" alt="" />
+          {employee?.avatar_url ? (
+            <img
+              className="avatar"
+              src={`http://localhost:3333/files/employees/${employee.avatar_url}`}
+              alt="Avatar Funcionário"
+            />
+          ) : (
+            <img
+              className="avatarNoImg"
+              src="/src/assets/user-no_img.svg"
+              alt=""
+            />
+          )}
         </div>
 
         <div className="contentItem">
           <h2>
-            {employee?.name} <br /> <small>{employee?.position}</small>
+            {employee?.name} <br />
+            <small>{employee?.position}</small>
           </h2>
 
           <p>
@@ -216,9 +263,13 @@ export const EmployeeDetail = () => {
           )}
 
           <div>
-            <Link to={`/funcionarios/${employee?.id}`}>
-              <button type="button">
-                <FileImage size={30} weight="bold" />
+            <button type="button" title="Alterar Status Usuário">
+              <Star size={30} color="#a5cd39" weight="bold" />
+            </button>
+
+            <Link to={`/funcionarios/avatar/${employee?.id}`}>
+              <button type="button" title="Inserir/Atualizar Avatar">
+                <FileImage size={30} color="#a5cd39" weight="bold" />
               </button>
             </Link>
             <Link to={`/funcionarios/${employee?.id}`}>
@@ -232,6 +283,13 @@ export const EmployeeDetail = () => {
               </button>
             </Link>
           </div>
+
+          {auth.role === "ADMIN" && (
+            <p>
+              <Star color="#a5cd39" size={24} />
+              ADMINISTRADOR
+            </p>
+          )}
         </div>
       </Content>
 

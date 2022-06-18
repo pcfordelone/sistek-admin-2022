@@ -1,4 +1,5 @@
 import { IPayStub } from "../../PayStubs/interfaces/IPayStub";
+import { User } from "../../Users/components/User/index";
 export interface IEmployee {
   id: string;
   name: string;
@@ -22,4 +23,8 @@ export interface IEmployee {
   user_id: string;
 
   PayStub?: IPayStub[];
+  user?: {
+    id: string;
+    role: string;
+  };
 }

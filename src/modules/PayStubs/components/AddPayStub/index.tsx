@@ -2,7 +2,7 @@ import { Breadcrumb } from "../../../../components/Breadcrumb";
 import InputMask from "react-input-mask";
 import { Database } from "phosphor-react";
 import { Container, Content } from "./styles";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { api } from "../../../../config/axios-config";
 import { useAuth } from "../../../Authentication/contexts/AuthContext/useAuth";
 import { useParams, useNavigate } from "react-router-dom";

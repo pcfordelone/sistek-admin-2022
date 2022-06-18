@@ -6,7 +6,7 @@ import { EmployeeItem } from "./styles";
 
 import { format } from "date-fns";
 
-import { CheckCircle, CheckSquareOffset, XCircle } from "phosphor-react";
+import { CheckCircle, CheckSquareOffset, Star, XCircle } from "phosphor-react";
 import { Link } from "react-router-dom";
 import { api } from "../../../../config/axios-config";
 import { useState } from "react";
@@ -46,10 +46,20 @@ export const Employee: React.FC<IEmployeeProps> = ({
       });
   };
 
+  //console.log(employee.user.role);
+
   return (
     <EmployeeItem>
       <div className="contentItem">
-        <img src="/src/assets/user-no_img.svg" alt="" />
+        {employee?.avatar_url ? (
+          <img
+            className="avatar"
+            src={`http://localhost:3333/files/employees/${employee.avatar_url}`}
+            alt="Avatar Funcionário"
+          />
+        ) : (
+          <img src="/src/assets/user-no_img.svg" alt="" />
+        )}
       </div>
 
       <div className="contentItem">

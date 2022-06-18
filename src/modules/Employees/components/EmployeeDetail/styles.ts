@@ -40,8 +40,17 @@ export const Content = styled.div`
   grid-template-columns: 1fr 3fr 2fr; // repete 3x colunas, fr -> flexível
   gap: 2rem;
 
-  img {
-    max-height: 13rem;
+  .avatar {
+    border-radius: 50%;
+    border: 4px solid var(--green);
+    width: 13rem;
+    height: 13rem;
+    object-fit: cover;
+    padding: 0.5rem;
+  }
+  .avatarNoImg {
+    width: 13rem;
+    height: 13rem;
   }
 
   .contentItem {
@@ -91,6 +100,10 @@ export const Content = styled.div`
         display: flex;
         align-items: center;
         gap: 0.5rem;
+
+        &:last-child {
+          margin-top: 1rem;
+        }
       }
 
       button {

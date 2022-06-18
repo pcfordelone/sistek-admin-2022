@@ -11,9 +11,13 @@ export const EmployeeItem = styled.div`
   grid-template-columns: 1fr 3fr 3fr; // repete 3x colunas, fr -> flexível
   gap: 2rem;
 
-  img {
-    flex: 1;
-    max-height: 10rem;
+  .avatar {
+    height: 9rem;
+    width: 9rem;
+    border-radius: 50%;
+    border: 4px solid var(--green);
+    object-fit: cover;
+    padding: 0.4rem;
   }
 
   .contentItem {

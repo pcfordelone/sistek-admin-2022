@@ -18,6 +18,8 @@ import { ListUsersPage } from "./modules/Users/pages/ListUsersPage";
 import { EditUserPage } from "./modules/Users/pages/EditUserPage";
 import { UserDashboardPage } from "./modules/UserPanel/pages/UserDashboardPage";
 import { ToastContainer } from "react-toastify";
+import { AddEmployeeAvatarPage } from "./modules/Employees/pages/AddEmployeeAvatarPage";
+import { ChangePasswordPage } from "./modules/UserPanel/pages/ChangePasswordPage";
 
 function App() {
   return (
@@ -50,6 +52,14 @@ function App() {
             element={
               <PrivatePage>
                 <UserDashboardPage />
+              </PrivatePage>
+            }
+          />
+          <Route
+            path="/dashboard/alterar-senha"
+            element={
+              <PrivatePage>
+                <ChangePasswordPage />
               </PrivatePage>
             }
           />
@@ -107,6 +117,14 @@ function App() {
             element={
               <PrivatePage admin>
                 <EmployeePage />
+              </PrivatePage>
+            }
+          />
+          <Route
+            path="/funcionarios/avatar/:id"
+            element={
+              <PrivatePage admin>
+                <AddEmployeeAvatarPage />
               </PrivatePage>
             }
           />
