@@ -89,10 +89,6 @@ export const AddPayStub: React.FC = () => {
             name: "Main",
             path: "/",
           },
-          {
-            name: "Holerites",
-            path: "/holerites",
-          },
         ]}
         employeeToolbar={false}
       />

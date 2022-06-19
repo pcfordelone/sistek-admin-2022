@@ -263,10 +263,6 @@ export const EmployeeDetail = () => {
           )}
 
           <div>
-            <button type="button" title="Alterar Status Usuário">
-              <Star size={30} color="#a5cd39" weight="bold" />
-            </button>
-
             <Link to={`/funcionarios/avatar/${employee?.id}`}>
               <button type="button" title="Inserir/Atualizar Avatar">
                 <FileImage size={30} color="#a5cd39" weight="bold" />
@@ -283,13 +279,6 @@ export const EmployeeDetail = () => {
               </button>
             </Link>
           </div>
-
-          {auth.role === "ADMIN" && (
-            <p>
-              <Star color="#a5cd39" size={24} />
-              ADMINISTRADOR
-            </p>
-          )}
         </div>
       </Content>
 
